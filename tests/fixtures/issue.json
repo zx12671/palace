@@ -1,0 +1,13 @@
+{
+  "id": "test-001",
+  "domain": "company",
+  "title": "测试模型通畅",
+  "background": "用于验证 Gemini 接口与输出结构是否正常。",
+  "constraints": ["仅测试，不产出真实方案"],
+  "goals": ["返回有效 JSON"],
+  "inputs": [
+    {"type": "doc", "name": "说明", "path": "N/A", "summary": "仅用于连通性测试"}
+  ],
+  "deadline": null,
+  "priority": "low"
+}

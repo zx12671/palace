@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "required": ["issue_id", "assumptions", "options"],
+  "properties": {
+    "issue_id": {"type": "string"},
+    "assumptions": {"type": "array", "items": {"type": "string"}},
+    "options": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["name", "summary", "pros", "cons", "rough_steps"],
+        "properties": {
+          "name": {"type": "string"},
+          "summary": {"type": "string"},
+          "pros": {"type": "array", "items": {"type": "string"}},
+          "cons": {"type": "array", "items": {"type": "string"}},
+          "rough_steps": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

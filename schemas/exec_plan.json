@@ -1,0 +1,69 @@
+{
+  "type": "object",
+  "required": ["issue_id", "liubu"],
+  "properties": {
+    "issue_id": {"type": "string"},
+    "liubu": {
+      "type": "object",
+      "required": ["libu", "hubu", "libu_ritual", "bingbu", "xingbu", "gongbu"],
+      "properties": {
+        "libu": {
+          "type": "object",
+          "required": ["roles"],
+          "properties": {
+            "roles": {"type": "array", "items": {"type": "string"}}
+          },
+          "additionalProperties": false
+        },
+        "hubu": {
+          "type": "object",
+          "required": ["budget", "time", "gaps"],
+          "properties": {
+            "budget": {"type": "string"},
+            "time": {"type": "string"},
+            "gaps": {"type": "array", "items": {"type": "string"}}
+          },
+          "additionalProperties": false
+        },
+        "libu_ritual": {
+          "type": "object",
+          "required": ["process", "comms"],
+          "properties": {
+            "process": {"type": "array", "items": {"type": "string"}},
+            "comms": {"type": "array", "items": {"type": "string"}}
+          },
+          "additionalProperties": false
+        },
+        "bingbu": {
+          "type": "object",
+          "required": ["steps", "milestones"],
+          "properties": {
+            "steps": {"type": "array", "items": {"type": "string"}},
+            "milestones": {"type": "array", "items": {"type": "string"}}
+          },
+          "additionalProperties": false
+        },
+        "xingbu": {
+          "type": "object",
+          "required": ["risks", "mitigations"],
+          "properties": {
+            "risks": {"type": "array", "items": {"type": "string"}},
+            "mitigations": {"type": "array", "items": {"type": "string"}}
+          },
+          "additionalProperties": false
+        },
+        "gongbu": {
+          "type": "object",
+          "required": ["tools", "templates"],
+          "properties": {
+            "tools": {"type": "array", "items": {"type": "string"}},
+            "templates": {"type": "array", "items": {"type": "string"}}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
