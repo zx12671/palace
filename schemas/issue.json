@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "required": ["id", "domain", "title", "background", "constraints", "goals", "inputs", "priority"],
+  "properties": {
+    "id": {"type": "string"},
+    "domain": {"type": "string", "enum": ["company", "personal"]},
+    "title": {"type": "string"},
+    "background": {"type": "string"},
+    "constraints": {"type": "array", "items": {"type": "string"}},
+    "goals": {"type": "array", "items": {"type": "string"}},
+    "inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "name", "path", "summary"],
+        "properties": {
+          "type": {"type": "string", "enum": ["doc"]},
+          "name": {"type": "string"},
+          "path": {"type": "string"},
+          "summary": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "deadline": {"type": ["string", "null"]},
+    "priority": {"type": "string", "enum": ["low", "medium", "high", "critical"]}
+  },
+  "additionalProperties": false
+}

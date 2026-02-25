@@ -1,0 +1,26 @@
+{
+  "id": "tech-001",
+  "domain": "startup",
+  "title": "独立开发者做「唐朝朝廷多智能体决策系统」选什么技术栈",
+  "background": "我是一个独立开发者，想做一个模拟唐朝三省六部的多智能体个人决策辅助系统。核心流程：用户输入一个待决策事项（Issue），系统通过多个 AI Agent 依次完成草案→审议→定稿→六部执行计划。目前有一个纯 Python + urllib 的 MVP 原型（约 200 行）以及基于CLI的交互原型，调用阿里云 DashScope API（qwen3-max），能跑通完整流程。现在要考虑下一步技术选型，把它做成一个可以给朋友用的产品。",
+  "constraints": [
+    "一个人开发，每天最多投入 3 小时",
+    "预算有限，月成本控制在 500 元以内（不含 API 调用费）",
+    "希望 2 周内出可用版本",
+    "第二期针对用户是非技术人员，需要有简单的交互界面"
+  ],
+  "goals": [
+    "从 MVP 命令行进化到有 Web 界面的产品",
+    "选定前后端技术栈",
+    "决定是否引入 LangChain/CrewAI 等 Agent 框架",
+    "确定部署方案",
+    "想通过这个项目跑通github actions +阿里云的完整部署流程"
+  ],
+  "inputs": [
+    {"type": "context", "name": "当前技术栈", "summary": "Python 3.9 + urllib + DashScope API，无框架无数据库，纯脚本"},
+    {"type": "context", "name": "备选方案", "summary": "A) 继续纯 Python + FastAPI 轻量路线；B) 用 LangChain + FastAPI；C) 用 Next.js 全栈 + Python API；D) 直接用 Streamlit/Gradio 快速出界面"},
+    {"type": "context", "name": "开发者背景", "summary": "熟悉 Python，了解前端但不精通，没用过 LangChain,觉得langchain 太重了"}
+  ],
+  "deadline": "2周",
+  "priority": "high"
+}

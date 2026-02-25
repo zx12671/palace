@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "required": ["issue_id", "imperial_choice", "alternatives", "decision_notes"],
+  "properties": {
+    "issue_id": {"type": "string"},
+    "imperial_choice": {
+      "type": "object",
+      "required": ["name", "reason"],
+      "properties": {
+        "name": {"type": "string"},
+        "reason": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "alternatives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "reason"],
+        "properties": {
+          "name": {"type": "string"},
+          "reason": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "decision_notes": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

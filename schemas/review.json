@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "required": ["issue_id", "risks", "objections", "revisions"],
+  "properties": {
+    "issue_id": {"type": "string"},
+    "risks": {"type": "array", "minItems": 3, "items": {"type": "string"}},
+    "objections": {"type": "array", "items": {"type": "string"}},
+    "revisions": {"type": "array", "minItems": 2, "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}
