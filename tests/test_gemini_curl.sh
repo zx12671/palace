@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-API_KEY="${DASHSCOPE_API_KEY:-REDACTED_DASHSCOPE_KEY5}"
+API_KEY="${DASHSCOPE_API_KEY:-sk}"
 MODEL="qwen3-max"
 BASE_URL="https://dashscope.aliyuncs.com/compatible-mode/v1"
 PROMPT="回答1+1等于几，只回答数字"
