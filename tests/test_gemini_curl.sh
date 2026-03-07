@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-API_KEY="${GEMINI_API_KEY:-AIzaSyAcQ8NSfY39nweNalsveisI6TZuyV8U4yk}"
-MODEL="gemini-3-flash-preview"
-BASE_URL="https://generativelanguage.googleapis.com/v1beta"
+API_KEY="${DASHSCOPE_API_KEY:-sk}"
+MODEL="qwen3-max"
+BASE_URL="https://dashscope.aliyuncs.com/compatible-mode/v1"
 PROMPT="回答1+1等于几，只回答数字"
 
 echo "=== Gemini API Connectivity Test ==="
