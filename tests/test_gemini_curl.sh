@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-API_KEY="${DASHSCOPE_API_KEY:-sk}"
+API_KEY="${DASHSCOPE_API_KEY:-}"
+if [ -z "$API_KEY" ]; then
+  echo "Error: DASHSCOPE_API_KEY is required"
+  exit 1
+fi
 MODEL="qwen3-max"
 BASE_URL="https://dashscope.aliyuncs.com/compatible-mode/v1"
 PROMPT="回答1+1等于几，只回答数字"

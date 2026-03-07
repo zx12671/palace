@@ -12,6 +12,10 @@ checkpoints/
 
 curl.txt
 
+# local/private issue fixtures (PII)
+tests/fixtures/issue_*_private.json
+tests/fixtures/issue_interview_resume_notion.json
+
 .DS_Store
 *.swp
 *.swo
