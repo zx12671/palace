@@ -6,7 +6,7 @@ import os
 import sys
 from datetime import datetime
 
-from palace.llm import deep_get, DEFAULT_MODEL
+from palace.llm import deep_get, DEFAULT_MODEL, GEMINI_DEFAULT_MODEL, is_gemini_model
 from palace.session import DecisionSession
 
 # ---------------------------------------------------------------------------
@@ -53,7 +53,8 @@ def _show_review(data):
     if suggestions:
         print("\n  修订建议:")
         for i, s in enumerate(suggestions, 1):
-            print(f"    {i}. {s[:100]}")
+            text = deep_get(s, "suggestion", "description", "content", default=str(s)) if isinstance(s, dict) else str(s)
+            print(f"    {i}. {text[:100]}")
 
 
 def _show_final(data):
@@ -172,14 +173,26 @@ PROMPT_HANDLERS = {
 # Main loop
 # ---------------------------------------------------------------------------
 
-def run_interactive(issue_path, model, outdir, resume_path=None):
-    api_key = os.environ.get("DASHSCOPE_API_KEY", "")
-    if not api_key:
+def _resolve_api_key(model):
+    if is_gemini_model(model):
+        key = os.environ.get("GEMINI_API_KEY", "")
+        if not key:
+            print("GEMINI_API_KEY is required for Gemini models.", file=sys.stderr)
+            sys.exit(1)
+        return key
+    key = os.environ.get("DASHSCOPE_API_KEY", "")
+    if not key:
         print("DASHSCOPE_API_KEY is required.", file=sys.stderr)
         sys.exit(1)
+    return key
 
+
+def run_interactive(issue_path, model, outdir, resume_path=None):
     issue = None
     if resume_path:
+        with open(resume_path, "r", encoding="utf-8") as f:
+            cp_model = json.load(f).get("model", DEFAULT_MODEL)
+        api_key = _resolve_api_key(cp_model)
         session = DecisionSession.load_checkpoint(resume_path, api_key)
         issue = session.issue
         print("  从断点恢复...")
@@ -188,6 +201,9 @@ def run_interactive(issue_path, model, outdir, resume_path=None):
             issue = json.load(f)
         if model == "auto":
             model = DEFAULT_MODEL
+        elif model == "gemini":
+            model = GEMINI_DEFAULT_MODEL
+        api_key = _resolve_api_key(model)
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         domain = issue.get("domain", "company")
         full_outdir = os.path.join(outdir, domain, f"decision_{timestamp}")
@@ -225,7 +241,8 @@ def main():
     parser = argparse.ArgumentParser(description="Palace 交互式决策系统")
     parser.add_argument("--issue", help="Issue JSON 文件路径")
     parser.add_argument("--outdir", default="outputs", help="输出目录")
-    parser.add_argument("--model", default="auto", help="模型名称或 'auto'")
+    parser.add_argument("--model", default="auto",
+                        help="模型名称: 'auto' (qwen3-max), 'gemini' (gemini-3-flash-preview), 或完整模型名")
     parser.add_argument("--resume", help="从断点 checkpoint.json 恢复")
     args = parser.parse_args()
 

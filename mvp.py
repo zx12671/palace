@@ -6,7 +6,10 @@ import os
 import sys
 from datetime import datetime
 
-from palace.llm import list_models, DEFAULT_MODEL
+from palace.llm import (
+    list_models, list_models_gemini, is_gemini_model,
+    DEFAULT_MODEL, GEMINI_DEFAULT_MODEL,
+)
 from palace.agents import run_agent, LIUBU
 from palace.renderer import build_markdown
 
@@ -30,17 +33,26 @@ def main():
     parser = argparse.ArgumentParser(description="Palace 批处理模式（非交互）")
     parser.add_argument("--issue", required=True, help="Path to Issue JSON")
     parser.add_argument("--outdir", default="outputs", help="Output directory")
-    parser.add_argument("--model", default="auto", help="Model name or 'auto' (default: qwen3-max)")
+    parser.add_argument("--model", default="auto",
+                        help="Model name, 'auto' (qwen3-max), or 'gemini' (gemini-3-flash-preview)")
     parser.add_argument("--list-models", action="store_true", help="List available models")
     args = parser.parse_args()
 
-    api_key = os.environ.get("DASHSCOPE_API_KEY", "")
-    if not api_key:
-        print("DASHSCOPE_API_KEY is required. Set it in your environment.", file=sys.stderr)
-        sys.exit(1)
+    use_gemini = args.model.startswith("gemini") if args.model != "auto" else False
+
+    if use_gemini:
+        api_key = os.environ.get("GEMINI_API_KEY", "")
+        if not api_key:
+            print("GEMINI_API_KEY is required for Gemini models.", file=sys.stderr)
+            sys.exit(1)
+    else:
+        api_key = os.environ.get("DASHSCOPE_API_KEY", "")
+        if not api_key:
+            print("DASHSCOPE_API_KEY is required. Set it in your environment.", file=sys.stderr)
+            sys.exit(1)
 
     if args.list_models:
-        models = list_models(api_key)
+        models = list_models_gemini(api_key) if use_gemini else list_models(api_key)
         for m in models:
             print(m.get("id", ""))
         return
@@ -56,6 +68,8 @@ def main():
     model = args.model
     if model == "auto":
         model = DEFAULT_MODEL
+    elif model == "gemini":
+        model = GEMINI_DEFAULT_MODEL
 
     print(f"\n{'=' * 50}")
     print(f"议题: {issue.get('title', '?')}")

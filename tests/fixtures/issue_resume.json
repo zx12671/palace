@@ -1,0 +1,104 @@
+{
+  "id": "career-003",
+  "domain": "career",
+  "title": "按照AI PM三角能力模型重写简历，适配AI产品管理与垂直行业AI负责人两条路径",
+  "background": "我是career-002决策的执行者。上一份决策确定了主路径（AI PM / 垂直行业AI Lead）和备选路径（LLM应用IC + 技术顾问）。工部提供了三角能力模型简历模板（技术理解力 + 业务翻译能力 + 落地案例），但我现有简历还是传统的技术管理者叙事，存在以下问题：1）过度强调管理职级和团队规模，容易被误判为脱离技术一线；2）缺少量化的AI产品成果（如A/B测试指标、p值）；3）Palace开源项目未被充分展示；4）行业Know-how（大健康+零售）没有与AI落地场景关联；5）没有针对不同岗位类型做差异化版本。",
+  "current_resume": {
+    "education": [
+      {"degree": "博士, 计算机科学与技术", "school": "英国诺丁汉大学", "period": "2013.1-2017.11", "detail": "导师: Prof. Ruibin Bai, Dr. Jon Mckechnie, Prof. Nabil Gindy (Full Scholarship)"},
+      {"degree": "硕士, 机械工程", "school": "英国拉夫堡大学", "period": "2011.9-2012.12", "detail": "导师: Prof. Jon Huntley (3D image processing for 3D sensor calibration)"},
+      {"degree": "学士, 车辆工程", "school": "武汉科技大学", "period": "2006.9-2010.9"}
+    ],
+    "work_experience": [
+      {
+        "company": "安踏集团（ANTA Group）",
+        "title": "AI算法负责人 / AI平台架构负责人",
+        "location": "厦门",
+        "period": "2024.3-至今",
+        "summary": "负责集团级AI平台架构设计与核心算法能力建设，推动AI在设计、零售、供应链、搜索推荐等核心业务场景规模化落地。",
+        "highlights": [
+          "鞋服工业设计大模型建设（集团级战略项目）：主导建设鞋服工业设计大模型（2D到3D生成体系），基于集团高质量鞋类数据库构建多模态训练体系，实现线稿生图、局部重绘、风格迁移、材质生成等核心能力，推动AI设计室落地接入Krita/PS/Rhino/Blender",
+          "企业级AI平台架构设计：主导集团AI平台整体技术架构设计（GPU集群+K8s+模型服务化），构建模型中心（LLM/Diffusion/多模态），实现统一API网关与推理调度系统，搭建CI/CD+模型评测+推理性能监控体系，支撑多品牌（安踏/FILA等）业务调用",
+          "企业内知识搜索系统升级：负责集团电商搜索自研算法方案，构建向量检索+规则模型+语义重排混合系统，解决品牌专有词汇识别、实时个性化、意图识别、多路召回问题，提升搜索转化率与用户停留时长",
+          "AI商业化与组织建设：建立AI项目立项评估与ROI模型，推动AI从PoC走向规模化生产，组建跨算法/平台/业务协同团队"
+        ]
+      },
+      {
+        "company": "汤臣倍健，AI营养研究中心",
+        "title": "算法专家/技术负责人",
+        "location": "上海",
+        "period": "2022.6-2024.2",
+        "summary": "负责研发，带领技术团队面向大健康领域的AI项目，开发基于图谱和大模型的AI应用程序。",
+        "highlights": [
+          "营养学知识图谱与决策树开发：建设首个基于营养的知识图谱体系，实现电商场景营养健康智能问答日接待用户量从0增加到超过3万",
+          "大模型文档理解与知识图谱对话系统：通过DeepSpeed微调13B基座大模型，增强领域知识和RAG推理能力，回答领域内知识准确率达到90%以上，降低领域外错误回答率达20%，综合利用向量检索（FAISS）、ES检索、图谱召回等多路召回策略，提升用户满意度40%",
+          "垂类领域大模型评价体系建设：综合评测GPT3.5/GPT4/Vicuna/chatGLM等主流大模型，降低公司模型部署成本30%以上",
+          "数据治理：从健康档案展示率不足5%提升到超过35%"
+        ]
+      },
+      {
+        "company": "平安健康（平安好医生），智能医疗部",
+        "title": "技术经理/NLP组负责人",
+        "location": "上海",
+        "period": "2018.1-2022.6",
+        "summary": "参与智能医疗部门从无到有的建设，负责医疗领域数字解决方案和AI项目的算法探索与实现。",
+        "highlights": [
+          "集团A类AI医生项目：开发并上线AI医生和智能辅诊机器人，导诊分诊准确率超过97%，支撑日均访问人数超百万级，日均调用次数超千万级。AI系统获WONCA最高级别认证：首个国际认可的AI医疗系统",
+          "平安医疗知识图谱建设：集团A类AI项目核心成员",
+          "图谱分诊问诊系统研发：stage1通过启发式算法(att-LSTM)自动生成专家系统规则准确率97%召回率70%；stage2与Bert形成层级调用系统准确率95%召回率95%",
+          "数据治理：主导大规模训练数据链路打通，形成百万级医疗基础语料和图谱数据库"
+        ]
+      },
+      {
+        "company": "宁波诺丁汉大学，计算机学院",
+        "title": "算法研究员",
+        "location": "宁波",
+        "period": "2017.8-2019.7",
+        "detail": "合作导师：Prof. Uwe Aickelin (现任墨尔本大学CS院长），带领4人研究团队。面向可解释性的智能医疗问诊（平安健康产学研项目），发表于NeuroComputing/IEEE ACCESS/IEEE CEC等核心期刊"
+      }
+    ],
+    "skills": [
+      "机器学习：Tensorflow, Keras, PyTorch",
+      "外语：流利英语（雅思7分）",
+      "编程语言：Python, JAVA, Matlab, SQL, HIVE",
+      "工程：Linux环境模型训练部署上线，SpringBoot, K8s, 敏捷开发",
+      "行业经验：医疗AI、医疗NLP项目设计和数据建模，兼具科研背景和工程落地经验"
+    ],
+    "patents": "核心发明人发明专利12篇（国际同源3篇）",
+    "software_copyrights": "核心软件开发者软件著作权3份",
+    "publications_count": 11,
+    "key_publications": [
+      "Li, Xiang., et al. (2021). A hybrid medical text classification framework. Neurocomputing, 443, 345-355. (SCI, IF=6)",
+      "Xiang Li, Ruibin Bai, Jon McKechnie. Environmental and financial performance of mechanical recycling of CFRP. Journal of Cleaner Production. (SCI, IF=11, 引用>150)",
+      "Yang, J., et al. (2023). Solutions for recycling emerging wind turbine blade waste. Communications Earth & Environment. (IF=7.9, Nature子刊)"
+    ],
+    "google_scholar": "https://scholar.google.com/citations?user=1fX5Co4AAAAJ&hl=en",
+    "wonca_certification": "作为核心开发者开发首个国际认可的AI医疗系统，获WONCA最高级别认证"
+  },
+  "constraints": [
+    "简历篇幅：中文版控制在2页以内，英文版1页",
+    "必须通过ATS（Applicant Tracking System）关键词筛选，覆盖高频关键词：RAG、Agent、LLM、多智能体、产品化、A/B测试",
+    "不能虚构经历或数据，所有量化指标必须有真实依据或合理推算",
+    "需要兼顾AI PM和AI Lead两种岗位类型的阅读期望",
+    "管理经验必须以协作+交付结果方式呈现，禁止出现管理XX人等纯管理表述",
+    "博士学历是加分项，需在教育部分突出CS博士背景和科研成果转化能力",
+    "WONCA认证和12篇专利是强差异化优势，必须醒目展示"
+  ],
+  "goals": [
+    "产出3个版本的简历：AI PM版、AI Lead/Head of AI版、LLM IC版",
+    "每个版本遵循三角能力模型结构（技术理解力 + 业务翻译能力 + 落地案例）",
+    "核心定位语（一句话）精准匹配目标岗位，避免模糊泛化",
+    "工作经历按STAR法则重写，每段突出AI相关贡献和量化结果",
+    "充分利用博士学历+WONCA认证+12篇专利+Nature子刊论文等硬实力背书",
+    "输出简历自检清单，确保投递前每个版本质量达标"
+  ],
+  "inputs": [
+    {"type": "context", "name": "当前简历问题诊断", "summary": "管理职级叙事过重；缺少AI产品化成果量化；Palace项目一笔带过；行业经验与AI场景脱节；无差异化版本；博士+WONCA+专利等硬实力未被充分利用"},
+    {"type": "reference", "name": "工部简历模板", "summary": "三角能力模型：技术理解力（RAG/Agent/向量数据库）+ 业务翻译能力（需求转方案、ROI测算）+ 落地案例（STAR法则+量化指标）"},
+    {"type": "reference", "name": "尚书省圣裁方案", "summary": "主路径AI PM定位：兼具行业Know-how、技术理解力与跨职能协作能力的AI产品管理者；备选LLM IC定位：Hands-on的LLM工程实践者，具备RAG/Agent系统构建能力"},
+    {"type": "reference", "name": "礼部统一话术", "summary": "核心关键词AI产品管理(AI PM)；禁止混用产品经理/技术经理等模糊表述；管理经验转化为协调XX角色推动XX功能上线带来XX业务结果"},
+    {"type": "context", "name": "目标岗位JD共性", "summary": "AI PM需懂RAG/Agent系统、数据闭环、成功指标定义；AI Lead需有从0到1AI产品经历、团队搭建、技术选型；LLM IC需Hands-on编码、开源贡献、系统设计"}
+  ],
+  "deadline": "3天内产出3个版本初稿",
+  "priority": "high"
+}
