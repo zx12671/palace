@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [main, service]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install ruff
+      - run: ruff check --select E,F,W .
+
+  test:
+    name: Test (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install test dependencies
+        run: pip install pytest
+
+      - name: Verify package imports
+        run: python -c "from palace import llm, agents, session, renderer; print('All imports OK')"
+
+      - name: Run unit tests (offline)
+        run: python -m pytest tests/test_offline.py -v --tb=short
+
+      - name: Run all tests (API tests auto-skip without key)
+        run: python -m pytest tests/ -v --tb=short
+
+  api-integration:
+    name: API Integration
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    needs: [lint, test]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: DashScope connectivity check
+        if: env.DASHSCOPE_API_KEY != ''
+        run: python -m pytest tests/test_gemini.py -v --tb=short
+        env:
+          DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
