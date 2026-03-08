@@ -1,0 +1,21 @@
+name: API Health Check
+
+on:
+  schedule:
+    # Every day at 08:00 UTC (16:00 CST)
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+
+jobs:
+  api-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run API connectivity tests
+        env:
+          DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: bash tests/test_gemini_curl.sh
