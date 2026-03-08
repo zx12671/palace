@@ -6,8 +6,11 @@ if [ -z "$API_KEY" ]; then
   echo "Error: DASHSCOPE_API_KEY is required"
   exit 1
 fi
+GEMINI_KEY="${GEMINI_API_KEY:-}"
 MODEL="qwen3-max"
 BASE_URL="https://dashscope.aliyuncs.com/compatible-mode/v1"
+GEMINI_MODEL="gemini-2.5-flash"
+GEMINI_BASE_URL="https://generativelanguage.googleapis.com/v1beta"
 PROMPT="回答1+1等于几，只回答数字"
 
 echo "=== DashScope API Connectivity Test ==="
@@ -111,6 +114,76 @@ else
   echo "Status: FAILED ($HTTP_CODE)"
   echo "$BODY"
   exit 1
+fi
+
+echo ""
+
+# ========== Google Gemini API Tests ==========
+if [ -z "$GEMINI_KEY" ]; then
+  echo "=== Skipping Gemini tests (GEMINI_API_KEY not set) ==="
+else
+  echo "=== Google Gemini API Connectivity Test ==="
+  echo "Model: $GEMINI_MODEL"
+  echo ""
+
+  echo "--- Test 4: Gemini generateContent ---"
+  RESPONSE=$(curl -s -w "\n%{http_code}" \
+    --location --request POST "${GEMINI_BASE_URL}/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}" \
+    --header "Content-Type: application/json" \
+    --data-raw "{
+      \"contents\": [{
+        \"parts\": [{\"text\": \"${PROMPT}\"}]
+      }]
+    }")
+
+  HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+  BODY=$(echo "$RESPONSE" | sed '$d')
+
+  if [ "$HTTP_CODE" -eq 200 ]; then
+    echo "Status: OK ($HTTP_CODE)"
+    TEXT=$(echo "$BODY" | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+parts = data['candidates'][0]['content']['parts']
+print(''.join(p.get('text','') for p in parts))
+" 2>/dev/null || echo "$BODY")
+    echo "Response: $TEXT"
+    TOKENS=$(echo "$BODY" | python3 -c "
+import sys, json
+u = json.load(sys.stdin).get('usageMetadata', {})
+print(f\"prompt={u.get('promptTokenCount',0)} completion={u.get('candidatesTokenCount',0)} total={u.get('totalTokenCount',0)}\")
+" 2>/dev/null || echo "N/A")
+    echo "Tokens: $TOKENS"
+  else
+    echo "Status: FAILED ($HTTP_CODE)"
+    echo "$BODY"
+    exit 1
+  fi
+
+  echo ""
+  echo "--- Test 5: Gemini list models ---"
+  RESPONSE=$(curl -s -w "\n%{http_code}" \
+    --location "${GEMINI_BASE_URL}/models?key=${GEMINI_KEY}")
+
+  HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+  BODY=$(echo "$RESPONSE" | sed '$d')
+
+  if [ "$HTTP_CODE" -eq 200 ]; then
+    COUNT=$(echo "$BODY" | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+models = [m['name'] for m in data.get('models', []) if 'gemini' in m.get('name','').lower()]
+print(f'found {len(models)} gemini models')
+for m in sorted(models)[-10:]:
+    print(f'  {m}')
+" 2>/dev/null || echo "?")
+    echo "Status: OK ($HTTP_CODE)"
+    echo "$COUNT"
+  else
+    echo "Status: FAILED ($HTTP_CODE)"
+    echo "$BODY"
+    exit 1
+  fi
 fi
 
 echo ""
