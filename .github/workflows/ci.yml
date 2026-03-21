@@ -2,9 +2,13 @@ name: CI
 
 on:
   push:
-    branches: [main, service]
+    branches: [main, service, add-skills]
   pull_request:
     branches: [main]
+  schedule:
+    # Every Monday at 02:00 UTC (10:00 CST)
+    - cron: '0 2 * * 1'
+  workflow_dispatch:
 
 jobs:
   lint:
@@ -42,6 +46,86 @@ jobs:
       - name: Run all tests (API tests auto-skip without key)
         run: python -m pytest tests/ -v --tb=short
 
+  skill-validation:
+    name: Skill & Plugin Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate project skill structure
+        run: |
+          test -f .claude/skills/palace/SKILL.md
+          test -f .claude/skills/palace/references/issue_schema.md
+          test -f .claude/skills/palace/references/output_schemas.md
+          echo "Project skill files OK"
+
+      - name: Validate plugin structure
+        run: |
+          test -f palace-plugin/.claude-plugin/plugin.json
+          test -f palace-plugin/skills/palace/SKILL.md
+          test -f palace-plugin/skills/palace/references/agent_prompts.md
+          test -f palace-plugin/skills/palace/references/issue_schema.md
+          test -f palace-plugin/skills/palace/references/output_schemas.md
+          echo "Plugin files OK"
+
+      - name: Validate plugin.json
+        run: |
+          python -c "
+          import json
+          d = json.load(open('palace-plugin/.claude-plugin/plugin.json'))
+          assert d['name'] == 'palace', f'name mismatch: {d[\"name\"]}'
+          assert 'version' in d, 'missing version'
+          assert 'description' in d, 'missing description'
+          print(f'plugin.json OK: {d[\"name\"]} v{d[\"version\"]}')
+          "
+
+      - name: Validate SKILL.md frontmatter
+        run: |
+          python -c "
+          import re
+          for path in [
+              '.claude/skills/palace/SKILL.md',
+              'palace-plugin/skills/palace/SKILL.md',
+          ]:
+              content = open(path).read()
+              assert content.startswith('---'), f'{path}: no frontmatter'
+              m = re.match(r'^---\n(.*?)\n---', content, re.DOTALL)
+              assert m, f'{path}: invalid frontmatter'
+              assert 'name: palace' in m.group(1)
+              assert 'description:' in m.group(1)
+              print(f'{path}: frontmatter OK')
+          "
+
+      - name: Validate agent prompts bundled
+        run: |
+          python -c "
+          content = open(
+              'palace-plugin/skills/palace/references/agent_prompts.md'
+          ).read()
+          agents = [
+              '中书省', '门下省', '尚书省',
+              '吏部', '户部', '礼部', '兵部', '刑部', '工部',
+          ]
+          for a in agents:
+              assert a in content, f'Missing agent: {a}'
+          print(f'All 9 agents found in bundled prompts')
+          "
+
+      - name: Validate output schemas
+        run: |
+          python -c "
+          import json, os
+          for schema in ['issue.json', 'draft.json', 'review.json',
+                         'final.json', 'exec_plan.json']:
+              path = f'schemas/{schema}'
+              assert os.path.exists(path), f'Missing: {path}'
+              json.load(open(path))
+          print('All 5 schemas valid')
+          "
+
   api-integration:
     name: API Integration
     runs-on: ubuntu-latest
@@ -52,6 +136,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
+      - name: Install test dependencies
+        run: pip install pytest
 
       - name: DashScope connectivity check
         if: env.DASHSCOPE_API_KEY != ''

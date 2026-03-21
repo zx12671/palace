@@ -10,7 +10,9 @@ from palace.renderer import build_markdown
 from palace.session import DecisionSession, STATE_DRAFT
 
 FIXTURES_DIR = os.path.join(os.path.dirname(__file__), "fixtures")
-PROMPTS_DIR = os.path.join(os.path.dirname(__file__), "..", "templates", "agent_prompts")
+PROMPTS_DIR = os.path.join(
+    os.path.dirname(__file__), "..", "templates", "agent_prompts",
+)
 
 
 class TestExtractJson(unittest.TestCase):
@@ -108,9 +110,17 @@ class TestFixtures(unittest.TestCase):
 class TestRenderer(unittest.TestCase):
     def test_build_markdown_minimal(self):
         issue = {"title": "Test", "background": "bg"}
-        draft = {"drafts": [{"name": "A", "summary": "s", "pros": ["p"], "cons": ["c"], "rough_steps": ["s1"]}]}
-        review = {"risks": ["r1"], "revision_suggestions": ["s1"]}
-        final = {"imperial_choice": {"name": "A", "reasoning": "r"}, "alternative": {"name": "B", "reasoning": "r2"}}
+        draft = {"drafts": [
+            {"name": "A", "summary": "s", "pros": ["p"],
+             "cons": ["c"], "rough_steps": ["s1"]},
+        ]}
+        review = {
+            "risks": ["r1"], "revision_suggestions": ["s1"],
+        }
+        final = {
+            "imperial_choice": {"name": "A", "reasoning": "r"},
+            "alternative": {"name": "B", "reasoning": "r2"},
+        }
         exec_plan = {"liubu": {"libu": {"roles": ["dev"]}, "hubu": {"budget": "0"}}}
         md = build_markdown(issue, draft, review, final, exec_plan)
         self.assertIn("# Test", md)

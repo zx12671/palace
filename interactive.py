@@ -47,9 +47,15 @@ def _show_review(data):
     if risks:
         print("  风险:")
         for i, r in enumerate(risks, 1):
-            text = deep_get(r, "description", "risk", default=str(r)) if isinstance(r, dict) else str(r)
+            if isinstance(r, dict):
+                text = deep_get(r, "description", "risk", default=str(r))
+            else:
+                text = str(r)
             print(f"    {i}. {text[:100]}")
-    suggestions = deep_get(data, "revision_suggestions", "suggestions", "revisions", default=[])
+    suggestions = deep_get(
+        data, "revision_suggestions", "suggestions",
+        "revisions", default=[],
+    )
     if suggestions:
         print("\n  修订建议:")
         for i, s in enumerate(suggestions, 1):

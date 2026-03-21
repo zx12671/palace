@@ -30,13 +30,23 @@ def main():
     parser = argparse.ArgumentParser(description="Palace 批处理模式（非交互）")
     parser.add_argument("--issue", required=True, help="Path to Issue JSON")
     parser.add_argument("--outdir", default="outputs", help="Output directory")
-    parser.add_argument("--model", default="auto", help="Model name or 'auto' (default: qwen3-max)")
-    parser.add_argument("--list-models", action="store_true", help="List available models")
+    parser.add_argument(
+        "--model", default="auto",
+        help="Model name or 'auto' (default: qwen3-max)",
+    )
+    parser.add_argument(
+        "--list-models", action="store_true",
+        help="List available models",
+    )
     args = parser.parse_args()
 
     api_key = os.environ.get("DASHSCOPE_API_KEY", "")
     if not api_key:
-        print("DASHSCOPE_API_KEY is required. Set it in your environment.", file=sys.stderr)
+        print(
+            "DASHSCOPE_API_KEY is required. "
+            "Set it in your environment.",
+            file=sys.stderr,
+        )
         sys.exit(1)
 
     if args.list_models:
@@ -65,7 +75,8 @@ def main():
     def _run(prompt_file, input_obj, label, seq):
         print(f"  ▶ {label} ...", flush=True)
         result = run_agent(prompt_file, input_obj, model, api_key)
-        write_json(os.path.join(outdir, f"{seq:02d}_{prompt_file.replace('.md', '')}.json"), result)
+        fname = f"{seq:02d}_{prompt_file.replace('.md', '')}.json"
+        write_json(os.path.join(outdir, fname), result)
         print(f"  ✓ {label} 完成")
         return result
 
