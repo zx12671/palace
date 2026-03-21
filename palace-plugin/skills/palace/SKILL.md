@@ -41,18 +41,16 @@ allowed-tools: [Read, Write, Bash, Glob, Grep, Agent]
 **呈给皇上确认** Issue JSON。如皇上有修改意见，更新后再次确认。
 
 确认后：
-1. 创建输出目录：`outputs/<domain>/decision_<YYYYMMDD_HHMMSS>/`
+1. 创建输出目录：`palace-decisions/<domain>/decision_<YYYYMMDD_HHMMSS>/`
 2. 保存 `00_issue.json`
 
 ---
 
 ## Step 2: 三省流程
 
-每个省的角色提示词在 `templates/agent_prompts/` 下，运行前读取对应文件以理解角色定位。输出格式参照 `references/output_schemas.md`。
+读取本 skill 的 `references/agent_prompts.md` 了解每个智能体的角色、目标和约束。输出格式参照 `references/output_schemas.md`。
 
 ### 2.1 中书省（草案）
-
-读取 `templates/agent_prompts/zhongshu.md`。
 
 以中书省智能体身份，基于 Issue 生成决策草案：
 - 列出关键假设
@@ -66,8 +64,6 @@ allowed-tools: [Read, Write, Bash, Glob, Grep, Agent]
 
 ### 2.2 门下省（审议）
 
-读取 `templates/agent_prompts/menxia.md`。
-
 以门下省智能体身份，**严格审议**中书省草案：
 - 指出至少 **3 条风险/漏洞**
 - 列出反对点
@@ -79,8 +75,6 @@ allowed-tools: [Read, Write, Bash, Glob, Grep, Agent]
 审议通过后保存为 `02_menxia_review.json`。
 
 ### 2.3 尚书省（定稿）
-
-读取 `templates/agent_prompts/shangshu.md`。
 
 以尚书省智能体身份，整合草案和审议意见：
 - 输出 `imperial_choice`（圣裁优先方案）并说明理由
@@ -111,34 +105,34 @@ allowed-tools: [Read, Write, Bash, Glob, Grep, Agent]
 
 ## Step 3: 六部执行
 
-皇上批准定稿后，依次执行六部。每部读取对应的 `templates/agent_prompts/*.md` 角色提示词。输出格式参照 `references/output_schemas.md`。
+皇上批准定稿后，依次执行六部。角色提示词参照 `references/agent_prompts.md`，输出格式参照 `references/output_schemas.md`。
 
-### 3.1 吏部（分工） — `templates/agent_prompts/libu.md`
+### 3.1 吏部（分工）
 
 基于定稿输出角色与任务分配清单。用具体角色，避免抽象占位。
 保存 `04_libu.json`。
 
-### 3.2 户部（资源） — `templates/agent_prompts/hubu.md`
+### 3.2 户部（资源）
 
 估算预算、人力、时间与资源缺口。给出区间估计。
 保存 `05_hubu.json`。
 
-### 3.3 礼部（流程） — `templates/agent_prompts/libu_ritual.md`
+### 3.3 礼部（流程）
 
 输出流程步骤与沟通要点。不得与兵部执行步骤冲突。
 保存 `06_libu_ritual.json`。
 
-### 3.4 兵部（执行） — `templates/agent_prompts/bingbu.md`
+### 3.4 兵部（执行）
 
 输出有序的执行步骤与里程碑。步骤必须可操作且有顺序。
 保存 `07_bingbu.json`。
 
-### 3.5 刑部（风险） — `templates/agent_prompts/xingbu.md`
+### 3.5 刑部（风险）
 
 列出风险与规避措施。覆盖高概率与高影响风险。
 保存 `08_xingbu.json`。
 
-### 3.6 工部（工具） — `templates/agent_prompts/gongbu.md`
+### 3.6 工部（工具）
 
 输出可落地的工具、模板或交付材料。确保与其他部门输出一致。
 保存 `09_gongbu.json`。

@@ -1,0 +1,9 @@
+{
+  "name": "palace",
+  "description": "Palace 三省六部多智能体决策系统。Claude 扮演唐朝三省六部9个智能体，用户作为皇上审批裁决，产出结构化决策报告。",
+  "version": "1.0.0",
+  "author": {
+    "name": "zx12671",
+    "email": ""
+  }
+}
