@@ -137,6 +137,9 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install test dependencies
+        run: pip install pytest
+
       - name: DashScope connectivity check
         if: env.DASHSCOPE_API_KEY != ''
         run: python -m pytest tests/test_gemini.py -v --tb=short
