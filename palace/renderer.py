@@ -76,7 +76,10 @@ def build_markdown(issue, draft, review, final, exec_plan):
                 lines.append(f"- {deep_get(r, 'description', 'risk', default=str(r))}")
             else:
                 lines.append(f"- {r}")
-    suggestions = deep_get(review, "revision_suggestions", "suggestions", "revisions", default=[])
+    suggestions = deep_get(
+        review, "revision_suggestions", "suggestions",
+        "revisions", default=[],
+    )
     if suggestions:
         lines.append("")
         lines.append("**修订建议**:")

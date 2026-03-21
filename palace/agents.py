@@ -4,7 +4,9 @@ import os
 
 from .llm import generate, extract_json, unwrap
 
-PROMPTS_DIR = os.path.join(os.path.dirname(__file__), "..", "templates", "agent_prompts")
+PROMPTS_DIR = os.path.join(
+    os.path.dirname(__file__), "..", "templates", "agent_prompts",
+)
 
 SANSHENG = [
     {"key": "zhongshu", "file": "zhongshu.md", "label": "中书省·草案", "seq": 1},

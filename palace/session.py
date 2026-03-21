@@ -8,10 +8,10 @@ import json
 import os
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Optional
+from typing import Optional
 
 from .agents import run_agent, LIUBU
-from .llm import deep_get, DEFAULT_MODEL
+from .llm import deep_get
 from .renderer import build_markdown
 
 # ---------------------------------------------------------------------------
@@ -77,8 +77,12 @@ class DecisionSession:
 
         user_input format varies by action:
           select_draft  -> {"choice": 1, "comment": "..."} or None/{}
-          review_opinion -> {"action": "approve"} | {"action": "comment", "comment": "..."} | {"action": "reject"}
-          confirm_final -> {"action": "approve"} | {"action": "reject_to_review"} | {"action": "reject_to_draft"}
+          review_opinion -> {"action": "approve"}
+            | {"action": "comment", "comment": "..."}
+            | {"action": "reject"}
+          confirm_final -> {"action": "approve"}
+            | {"action": "reject_to_review"}
+            | {"action": "reject_to_draft"}
           confirm_dept  -> {"action": "approve"} | {"action": "redo", "comment": "..."}
         """
         if self.state == STATE_DRAFT:

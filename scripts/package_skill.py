@@ -39,7 +39,10 @@ def validate(skill_path: Path) -> tuple[bool, str]:
             key, _, val = line.partition(":")
             fm[key.strip()] = val.strip().strip('"')
 
-    allowed = {"name", "description", "license", "allowed-tools", "metadata", "compatibility"}
+    allowed = {
+        "name", "description", "license",
+        "allowed-tools", "metadata", "compatibility",
+    }
     unexpected = set(fm.keys()) - allowed
     if unexpected:
         return False, f"Unexpected keys: {', '.join(sorted(unexpected))}"
@@ -75,7 +78,7 @@ def package(skill_path: Path, output_dir: Path) -> Path | None:
     if not valid:
         print(f"  Validation failed: {msg}")
         return None
-    print(f"  Validation passed")
+    print("  Validation passed")
 
     output_dir.mkdir(parents=True, exist_ok=True)
     out_file = output_dir / f"{skill_path.name}.skill"
@@ -96,7 +99,7 @@ def package(skill_path: Path, output_dir: Path) -> Path | None:
 
 def main():
     output_dir = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("dist")
-    print(f"Packaging Palace skill...")
+    print("Packaging Palace skill...")
     print(f"  Source:  {SKILL_DIR}")
     print(f"  Output:  {output_dir.resolve()}\n")
 
