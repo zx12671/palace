@@ -9,7 +9,7 @@ A multi-agent decision system for Claude Code. Claude acts as all 9 agents from 
 **From GitHub | 从 GitHub 安装**
 
 ```
-/plugin marketplace add zx12671/palace
+/plugin marketplace add zx12671/palace 【注册中】
 /plugin install palace@palace
 ```
 
@@ -21,9 +21,27 @@ claude --plugin-dir ./palace-plugin
 
 **Project-level (no install needed) | 项目级（无需安装）**
 
-Copy `skills/palace/` to your project's `.claude/skills/palace/`.
+合：想在自己的项目里直接用 `/palace` 命令。
 
-将 `skills/palace/` 复制到项目的 `.claude/skills/palace/` 即可。
+```bash
+# 1. 在你的项目根目录下创建 .claude/skills/ 目录
+mkdir -p /path/to/your-project/.claude/skills/
+
+# 2. 从 palace 仓库复制 skill
+cp -r /path/to/palace/.claude/skills/palace /path/to/your-project/.claude/skills/palace
+
+# 3. 进入你的项目，打开 Claude Code
+cd /path/to/your-project
+claude
+```
+
+进入 Claude Code 后直接输入：
+
+```
+/palace 帮我决定要不要辞职去创业
+```
+
+就这样，不需要 API Key，不需要安装任何依赖。Claude 自身扮演全部 9 个智能体。
 
 ## Usage | 使用
 
