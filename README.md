@@ -88,7 +88,6 @@ Interactive mode pauses at each checkpoint for user input:
 /plugin install palace@palace
 ```
 
-```
 
 **Option B: Project-level (auto) | 项目级（自动生效）**
 
