@@ -88,19 +88,36 @@ Interactive mode pauses at each checkpoint for user input:
 /plugin install palace@palace
 ```
 
-**Option B: Local testing | 本地测试**
-
-```bash
-claude --plugin-dir ./palace-plugin
 ```
 
-**Option C: Project-level (auto) | 项目级（自动生效）**
+**Option B: Project-level (auto) | 项目级（自动生效）**
 
 Clone this repo and work inside it. The skill at `.claude/skills/palace/` activates automatically.
 
 克隆此仓库并在其中工作，`.claude/skills/palace/` 下的技能自动生效。
 
 ### Usage | 使用
+合：想在自己的项目里直接用 `/palace` 命令。
+
+```bash
+# 1. 在你的项目根目录下创建 .claude/skills/ 目录
+mkdir -p /path/to/your-project/.claude/skills/
+
+# 2. 从 palace 仓库复制 skill
+cp -r /path/to/palace/.claude/skills/palace /path/to/your-project/.claude/skills/palace
+
+# 3. 进入你的项目，打开 Claude Code
+cd /path/to/your-project
+claude
+```
+
+进入 Claude Code 后直接输入：
+
+```
+/palace 帮我决定要不要辞职去创业
+```
+
+就这样，不需要 API Key，不需要安装任何依赖。Claude 自身扮演全部 9 个智能体。
 
 ```
 /palace I need to decide between React and Vue for my frontend
